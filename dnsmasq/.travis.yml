@@ -1,0 +1,29 @@
+---
+language: python
+python: "2.7"
+
+# Use the new container infrastructure
+sudo: false
+
+# Установка ansible
+addons:
+  apt:
+    packages:
+    - python-pip
+
+install:
+  # Установка ansible
+  - pip install ansible
+
+  # Проверить версию ansible
+  - ansible --version
+
+  # Создать ansible.cfg с путями к ролям
+  - printf '[defaults]\nroles_path=../' >ansible.cfg
+
+script:
+  # Проверка синтаксиса
+  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
